@@ -1,4 +1,4 @@
-package de.shelly_controller
+package de.shelly_controller.view
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
