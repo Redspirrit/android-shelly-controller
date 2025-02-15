@@ -34,8 +34,6 @@ class MainActivity : ComponentActivity() {
                 )
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     Greeting(
-                        params,
-                        "http://192.168.178.37/",
                         modifier = Modifier.padding(innerPadding)
                     )
                 }
@@ -45,7 +43,8 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun Greeting(params: Map<String, String>, baseUrl: String, modifier: Modifier = Modifier, viewModel: ApiViewModel = viewModel()) {
+fun Greeting(modifier: Modifier = Modifier, viewModel: ApiViewModel = viewModel()) {
+    val shellyAction = viewModel.initShellys()
     Column(
         modifier = modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
@@ -53,8 +52,7 @@ fun Greeting(params: Map<String, String>, baseUrl: String, modifier: Modifier = 
     ) {
         Button(
             onClick = {
-                viewModel.setBaseUrl(baseUrl)
-                viewModel.ledAction(params)
+                viewModel.ledAction(shellyAction)
             }
         ) { Text("White") }
     }

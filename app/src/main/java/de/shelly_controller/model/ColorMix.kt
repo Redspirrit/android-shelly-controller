@@ -1,7 +1,9 @@
 package de.shelly_controller.model
 
 data class ColorMix(
-    val color: Int,
-    val brightness: Int,
-    val white: Int
+    val red: Int,
+    val green: Int,
+    val blue: Int,
+    val white: Int,
+    val gain: Int
 )
