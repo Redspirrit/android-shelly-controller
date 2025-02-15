@@ -11,12 +11,17 @@ import retrofit2.HttpException
 import java.io.IOException
 
 class ApiViewModel : ViewModel() {
-    var message by mutableStateOf("")
-    fun fetchGet(state: String) {
+    private var message by mutableStateOf("")
+    private var apiService: ApiService? = null
 
+    fun setBaseUrl(url: String) {
+        apiService = RetrofitFactory.create(url)
+    }
+
+    fun ledAction(params: Map<String, String>) {
         viewModelScope.launch {
             try {
-                RetrofitInstance.api.triggerAction(state)
+                apiService!!.triggerAction(params)
                 message = "Action successful"
             } catch (e: IOException) {
                 message = "Network Error"
