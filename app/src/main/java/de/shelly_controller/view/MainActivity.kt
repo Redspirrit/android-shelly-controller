@@ -14,10 +14,16 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
+import dagger.hilt.android.AndroidEntryPoint
+import dagger.hilt.android.HiltAndroidApp
+import dagger.hilt.android.qualifiers.ApplicationContext
 import de.shelly_controller.ui.theme.ShellyControllerTheme
 import de.shelly_controller.viewModel.ApiViewModel
+import de.shelly_controller.viewModel.ShellyViewModel
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,8 +49,8 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun Greeting(modifier: Modifier = Modifier, viewModel: ApiViewModel = viewModel()) {
-    val shellyAction = viewModel.initShellys()
+fun Greeting(modifier: Modifier = Modifier, shellyViewModel: ShellyViewModel = hiltViewModel()) {
+    shellyViewModel.insertShellyAction()
     Column(
         modifier = modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
@@ -52,7 +58,7 @@ fun Greeting(modifier: Modifier = Modifier, viewModel: ApiViewModel = viewModel(
     ) {
         Button(
             onClick = {
-                viewModel.ledAction(shellyAction)
+                shellyViewModel.insertShellyAction()
             }
         ) { Text("White") }
     }
