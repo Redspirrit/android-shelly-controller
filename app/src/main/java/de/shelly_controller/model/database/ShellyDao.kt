@@ -29,7 +29,7 @@ class ShellyDao {
     }
 
     fun getShelly(db: SQLiteDatabase, ip: String): Shelly? {
-        val cursor = db.rawQuery("SELECT * FROM ${Contract.ShellyContract.TABLE_NAME} WHERE ${Contract.ShellyContract.COLUMN_IP} = ${ip}", null)
+        val cursor = db.rawQuery("SELECT * FROM ${Contract.ShellyContract.TABLE_NAME} WHERE ${Contract.ShellyContract.COLUMN_IP} = '$ip'", null)
         val ipAddress: String
         val name: String
         var shelly: Shelly? = null
@@ -55,7 +55,7 @@ class ShellyDao {
     }
 
     private fun getColorMix(db: SQLiteDatabase, colorMixHash: String): ColorMix? {
-        val cursor = db.rawQuery("SELECT * FROM ${Contract.ColorMixContract.TABLE_NAME} WHERE ${Contract.ColorMixContract.COLUMN_HASH} = $colorMixHash", null)
+        val cursor = db.rawQuery("SELECT * FROM ${Contract.ColorMixContract.TABLE_NAME} WHERE ${Contract.ColorMixContract.COLUMN_HASH} = '$colorMixHash'", null)
         var color: ColorMix? = null
         if (cursor.moveToFirst()) {
             val red = cursor.getInt(cursor.getColumnIndexOrThrow(Contract.ColorMixContract.COLUMN_RED))
@@ -71,7 +71,7 @@ class ShellyDao {
     }
 
     fun insertShellyAction(db: SQLiteDatabase, shellyAction: ShellyAction): String {
-        if (!shellyActionExists(db, shellyAction.hash)) {
+        if (shellyActionExists(db, shellyAction.hash)) {
             return ""
         } else {
             val colorHash = shellyAction.color.hash
@@ -100,7 +100,7 @@ class ShellyDao {
     }
 
     private fun shellyActionExists(db: SQLiteDatabase, hash: String): Boolean {
-        db.rawQuery("SELECT * FROM ${Contract.ShellyActionContract.TABLE_NAME} WHERE ${Contract.ShellyActionContract.COLUMN_HASH} = $hash", null).use { cursor ->
+        db.rawQuery("SELECT * FROM ${Contract.ShellyActionContract.TABLE_NAME} WHERE ${Contract.ShellyActionContract.COLUMN_HASH} = '$hash'", null).use { cursor ->
             return cursor.moveToFirst()
         }
     }

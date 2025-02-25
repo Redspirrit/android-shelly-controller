@@ -30,14 +30,6 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             ShellyControllerTheme {
-                val params = mapOf(
-                    "turn" to "on",
-                    "red" to "255",
-                    "green" to "0",
-                    "blue" to "0",
-                    "white" to "0",
-                    "gain" to "100"
-                )
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     Greeting(
                         modifier = Modifier.padding(innerPadding)
@@ -50,7 +42,6 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun Greeting(modifier: Modifier = Modifier, shellyViewModel: ShellyViewModel = hiltViewModel()) {
-    shellyViewModel.insertShellyAction()
     Column(
         modifier = modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
