@@ -3,6 +3,7 @@ package de.shelly_controller.model
 import java.security.MessageDigest
 
 data class ColorMix(
+    val id: Int,
     val red: Int,
     val green: Int,
     val blue: Int,

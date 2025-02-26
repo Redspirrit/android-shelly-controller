@@ -22,10 +22,20 @@ class ShellyRepository(private val dbHelper: DatabaseHelper, private val shellyD
         return shellyDao.getShelly(db, ip)
     }
 
+    fun getHighesColorId(): Int {
+        val db = dbHelper.readableDatabase
+        return shellyDao.getHighesColorId(db)
+    }
+
+    fun getHighestActionId(): Int {
+        val db = dbHelper.readableDatabase
+        return shellyDao.getHighestActionId(db)
+    }
+
     fun insertShellyAction(shellyAction: ShellyAction) {
         val db = dbHelper.writableDatabase
         val id = shellyDao.insertShellyAction(db, shellyAction)
-        Log.d("db", id)
+        Log.d("db", id.toString())
     }
 
     fun getShellyActions(): List<ShellyAction> {

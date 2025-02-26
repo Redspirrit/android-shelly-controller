@@ -11,10 +11,12 @@ import javax.inject.Inject
 @HiltViewModel
 class ShellyViewModel @Inject constructor(private val repo: ShellyRepository): ViewModel() {
     fun insertShellyAction() {
+        val colorId = maxOf(repo.getHighesColorId(), 1)
         val shellyTisch = Shelly("Tisch", "http://192.168.178.37/")
         val shellyBett = Shelly("Bett", "http://192.168.178.36/")
-        val color = ColorMix(255, 0, 0, 0, 100)
+        val color = ColorMix(colorId, 255, 0, 0, 0, 100)
         val shellyAction = ShellyAction(
+            repo.getHighestActionId(),
             mutableListOf(shellyBett, shellyTisch),
             isEnabled = true,
             isLight = true,
