@@ -17,18 +17,6 @@ class ApiViewModel : ViewModel() {
     private var message by mutableStateOf("")
     private var apiService: ApiService? = null
 
-    fun initShellys(): ShellyAction {
-        val shellyTisch = Shelly("Tisch", "http://192.168.178.37/")
-        val shellyBett = Shelly("Bett", "http://192.168.178.36/")
-        val color = ColorMix(255, 0, 0, 0, 100)
-        return ShellyAction(
-            mutableListOf(shellyBett, shellyTisch),
-            isEnabled = true,
-            isLight = true,
-            color
-        )
-    }
-
     fun ledAction(shellyAction: ShellyAction) {
         for (shelly in shellyAction.shelly) {
             apiService = RetrofitFactory.create(shelly.ip)

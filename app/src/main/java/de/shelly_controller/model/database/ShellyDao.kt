@@ -68,14 +68,14 @@ class ShellyDao {
         return db.insert(Contract.ColorMixContract.TABLE_NAME, null, values)
     }
 
-    fun getHighesColorId(db: SQLiteDatabase): Int {
+    fun getNextColorId(db: SQLiteDatabase): Int {
         val cursor = db.rawQuery("SELECT MAX(${BaseColumns._ID}) FROM ${Contract.ColorMixContract.TABLE_NAME}", null)
         var id = -1
         while (cursor.moveToNext()) {
             id = cursor.getInt(0)
         }
         cursor.close()
-        return id
+        return id + 1
     }
 
     private fun getColorMix(db: SQLiteDatabase, colorMixHash: String): ColorMix? {
@@ -120,24 +120,23 @@ class ShellyDao {
         )
     }
 
-    fun getHighestActionId(db: SQLiteDatabase): Int {
+    fun getNextActionId(db: SQLiteDatabase): Int {
         val cursor = db.rawQuery("SELECT MAX(${BaseColumns._ID}) FROM ${Contract.ShellyActionContract.TABLE_NAME}", null)
         var id = -1
         while (cursor.moveToNext()) {
             id = cursor.getInt(0)
         }
         cursor.close()
-        return id
+        return id + 1
     }
 
     fun insertShellyAction(db: SQLiteDatabase, shellyAction: ShellyAction): Long {
-        if (shellyActionExists(db, shellyAction.hash)) {
+        if (shellyActionExists(db, shellyAction.id)) {
             return -1
         } else {
             if (getColorMix(db, shellyAction.color.hash) == null) insertColorMix(db, shellyAction.color)
 
             val values = ContentValues().apply {
-                put(Contract.ShellyActionContract.COLUMN_HASH, shellyAction.hash)
                 put(Contract.ShellyActionContract.COLUMN_IS_ENABLED, if (shellyAction.isEnabled) 1 else 0)
                 put(Contract.ShellyActionContract.COLUMN_IS_LIGHT, if (shellyAction.isLight) 1 else 0)
                 put(Contract.ShellyActionContract.COLUMN_COLOR_ID, shellyAction.color.id)
@@ -158,8 +157,8 @@ class ShellyDao {
         }
     }
 
-    private fun shellyActionExists(db: SQLiteDatabase, hash: String): Boolean {
-        db.rawQuery("SELECT * FROM ${Contract.ShellyActionContract.TABLE_NAME} WHERE ${Contract.ShellyActionContract.COLUMN_HASH} = '$hash'", null).use { cursor ->
+    private fun shellyActionExists(db: SQLiteDatabase, id: Int): Boolean {
+        db.rawQuery("SELECT * FROM ${Contract.ShellyActionContract.TABLE_NAME} WHERE ${BaseColumns._ID} = $id", null).use { cursor ->
             return cursor.moveToFirst()
         }
     }
@@ -201,10 +200,9 @@ class ShellyDao {
 
     fun updateShellyAction(db: SQLiteDatabase, shellyAction: ShellyAction): Int {
         val values = ContentValues().apply {
-            put(Contract.ShellyActionContract.COLUMN_HASH, shellyAction.hash)
             put(Contract.ShellyActionContract.COLUMN_IS_ENABLED, if (shellyAction.isEnabled) 1 else 0)
             put(Contract.ShellyActionContract.COLUMN_IS_LIGHT, if (shellyAction.isLight) 1 else 0)
-            put(Contract.ShellyActionContract.COLUMN_COLOR_ID, shellyAction.color.hash)
+            put(Contract.ShellyActionContract.COLUMN_COLOR_ID, shellyAction.color.id)
         }
 
         return db.update(
@@ -218,13 +216,13 @@ class ShellyDao {
     fun deleteShellyAction(db: SQLiteDatabase, shellyAction: ShellyAction): Int {
         val deleteShellyActionShelly = db.delete(
             Contract.ShellyActionShellyContract.TABLE_NAME,
-            "${Contract.ShellyActionShellyContract.COLUMN_SHELLY_ACTION_ID} = ${shellyAction.hash}",
+            "${Contract.ShellyActionShellyContract.COLUMN_SHELLY_ACTION_ID} = ${shellyAction.id}",
             null
         )
         return if (deleteShellyActionShelly > 0) {
             db.delete(
                 Contract.ShellyActionContract.TABLE_NAME,
-                "${Contract.ShellyActionContract.COLUMN_HASH} = ${shellyAction.hash}",
+                "${BaseColumns._ID} = ${shellyAction.id}",
                 null
             )
         } else deleteShellyActionShelly

@@ -21,7 +21,6 @@ object Contract {
 
     object ShellyActionContract : BaseColumns {
         const val TABLE_NAME = "ShellyAction"
-        const val COLUMN_HASH = "hash"
         const val COLUMN_IS_ENABLED = "isEnabled"
         const val COLUMN_IS_LIGHT = "isLight"
         const val COLUMN_COLOR_ID = "colorId"

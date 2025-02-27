@@ -33,7 +33,7 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
     private val createColorMix =
         "CREATE TABLE ${Contract.ColorMixContract.TABLE_NAME} (" +
                 "${BaseColumns._ID} INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                "${Contract.ColorMixContract.COLUMN_HASH} TEXT PRIMARY KEY, " +
+                "${Contract.ColorMixContract.COLUMN_HASH} TEXT, " +
                 "${Contract.ColorMixContract.COLUMN_RED} INTEGER, " +
                 "${Contract.ColorMixContract.COLUMN_GREEN} INTEGER, " +
                 "${Contract.ColorMixContract.COLUMN_BLUE} INTEGER, " +
@@ -43,7 +43,6 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
     private val createShellyActions =
         "CREATE TABLE ${Contract.ShellyActionContract.TABLE_NAME} (" +
                 "${BaseColumns._ID} INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                "${Contract.ShellyActionContract.COLUMN_HASH} TEXT, " +
                 "${Contract.ShellyActionContract.COLUMN_IS_ENABLED} INTEGER, " +
                 "${Contract.ShellyActionContract.COLUMN_IS_LIGHT} INTEGER, " +
                 "${Contract.ShellyActionContract.COLUMN_COLOR_ID} INTEGER, " +

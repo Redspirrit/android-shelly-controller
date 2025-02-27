@@ -1,6 +1,5 @@
 package de.shelly_controller.model
 
-import android.content.Context
 import android.util.Log
 import de.shelly_controller.model.database.DatabaseHelper
 import de.shelly_controller.model.database.ShellyDao
@@ -24,12 +23,12 @@ class ShellyRepository(private val dbHelper: DatabaseHelper, private val shellyD
 
     fun getHighesColorId(): Int {
         val db = dbHelper.readableDatabase
-        return shellyDao.getHighesColorId(db)
+        return shellyDao.getNextColorId(db)
     }
 
     fun getHighestActionId(): Int {
         val db = dbHelper.readableDatabase
-        return shellyDao.getHighestActionId(db)
+        return shellyDao.getNextActionId(db)
     }
 
     fun insertShellyAction(shellyAction: ShellyAction) {
